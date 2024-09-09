@@ -1,0 +1,67 @@
+{
+    "title": "Amazon Scraper Input Schema",
+    "description": "Input schema for scraping Amazon category or product URLs with flexible options.",
+    "type": "object",
+    "properties": {
+        "categoryOrProductUrls": {
+            "type": "array",
+            "title": "Category or Product URLs",
+            "description": "List of Amazon category or product page URLs to scrape.",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "url": {
+                        "type": "string",
+                        "format": "uri",
+                        "description": "Amazon category or product URL",
+                        "pattern": "^https://www\\.amazon\\.[a-z]{2,3}(?:\\.[a-z]{2,3})?/.+$"
+                    }
+                },
+                "required": ["url"]
+            },
+            "minItems": 1,
+            "uniqueItems": true
+        },
+        "maxItemsPerStartUrl": {
+            "type": "integer",
+            "title": "Max Items per Start URL",
+            "description": "The maximum number of items to scrape per URL.",
+            "default": 100,
+            "minimum": 1
+        },
+        "maxOffers": {
+            "type": "integer",
+            "title": "Max Offers",
+            "description": "Maximum number of offers to scrape per product.",
+            "default": 0,
+            "minimum": 0
+        },
+        "proxyCountry": {
+            "type": "string",
+            "title": "Proxy Country",
+            "description": "Country for the proxy to use. Use 'AUTO_SELECT_PROXY_COUNTRY' for automatic selection.",
+            "default": "AUTO_SELECT_PROXY_COUNTRY",
+            "enum": ["AUTO_SELECT_PROXY_COUNTRY", "US", "CA", "UK", "DE", "FR"]
+        },
+        "scrapeProductVariantPrices": {
+            "type": "boolean",
+            "title": "Scrape Product Variant Prices",
+            "description": "Set to true to scrape prices of different product variants (e.g., colors, sizes).",
+            "default": false
+        },
+        "scrapeSellers": {
+            "type": "boolean",
+            "title": "Scrape Sellers",
+            "description": "Set to true to scrape sellers offering the product.",
+            "default": false
+        },
+        "useCaptchaSolver": {
+            "type": "boolean",
+            "title": "Use CAPTCHA Solver",
+            "description": "Set to true to use a CAPTCHA solver in case the scraper encounters CAPTCHAs.",
+            "default": false
+        }
+    },
+    "required": ["categoryOrProductUrls", "maxItemsPerStartUrl"],
+    "additionalProperties": false
+}
